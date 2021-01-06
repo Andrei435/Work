@@ -187,7 +187,7 @@ const aboutCall = {
 aboutCall.init();
 let loader = document.querySelector('.loader');
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('load',()=>{
   loader.classList.add('disable')
 })
 
