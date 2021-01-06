@@ -187,7 +187,6 @@ const aboutCall = {
 aboutCall.init();
 let loader = document.querySelector('.loader');
 
-window.onload= function(){
+window.onload = function(){
   loader.classList.add('disable')
 }
-
