@@ -130,14 +130,17 @@ const burgerMenu = {
 	elements:{
 		row:null,
 		btnMenu:null,
-		header:null
+    header:null,
+    body:null
 	},
 	init(){
 	this.elements.row = document.querySelectorAll('.row');
 	this.elements.btnMenu = document.querySelector('.burger__menu');
-	this.elements.header = document.querySelector('.header__contact');
+  this.elements.header = document.querySelector('.header__contact');
+  this.elements.body = document.querySelector('.body');
 
 	this.elements.btnMenu.addEventListener('click', ()=>{
+  this.elements.body.classList.toggle('hidden');
 	this.elements.header.classList.toggle('active');
 	this.elements.row.forEach(elem =>{
 	elem.classList.toggle('row'+ elem.dataset.row)
@@ -153,7 +156,11 @@ const aboutCall = {
     about:null,
     btnClose:null,
     btnCall:null,
-    btnItem:null
+    btnItem:null,
+    tel:null,
+    btnAboutCall:null,
+    errorNumber:true,
+    div:null
   },
   init(){
     this.elements.wrapper = document.querySelector('.about__call-wrapper');
@@ -161,20 +168,34 @@ const aboutCall = {
     this.elements.btnCall = document.querySelector('.header__contact-call');
     this.elements.about = document.querySelector('.about__call');
     this.elements.btnItem = document.querySelectorAll('.causes__img-item');
-    this.pushBtn()
+    this.elements.btnAboutCall =document.querySelector('.call__btn');
+    this.pushBtn();
+    this.errorValue();
   },
   pushBtn(){
     this.elements.btnCall.addEventListener('click', ()=>{
       this.elements.wrapper.classList.add('active__call');
       this.elements.about.classList.add('active__call');
+      let div = document.createElement('div');
+      div.className = 'error_tel disable';
+      div.innerHTML = 'Номер телефона некорректный';
+      if(this.elements.errorNumber){
+          this.elements.about.append(div); 
+          this.elements.errorNumber = false;
+      };
+      this.elements.div = document.querySelector('.error_tel')
     })
     this.elements.wrapper.addEventListener('click', ()=>{
       this.elements.wrapper.classList.remove('active__call');
       this.elements.about.classList.remove('active__call');
+      this.elements.tel.value = '';
+      this.elements.div.classList.add('disable');
     })
     this.elements.btnClose.addEventListener('click', ()=>{
       this.elements.wrapper.classList.remove('active__call');
       this.elements.about.classList.remove('active__call');
+      this.elements.tel.value = '';
+      this.elements.div.classList.add('disable');
     })
     this.elements.btnItem.forEach(elem =>{
       elem.addEventListener('click', ()=>{
@@ -182,7 +203,16 @@ const aboutCall = {
         this.elements.about.classList.add('active__call');
       })
     })
+  },
+  errorValue(){
+    this.elements.btnAboutCall.addEventListener('click', ()=>{
+      this.elements.tel = document.querySelector('.input__phone');
+      if (String(this.elements.tel.value.replace(/_/g,"").replace(/ /g,"").replace(/-/g,"").replace('(',"").replace(")","")).length<13){      
+        this.elements.div.classList.remove('disable');
+      } else{
+        this.elements.div.classList.add('disable')
+      }
+    })
   }
 }
 aboutCall.init();
-
